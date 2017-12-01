@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bicycle Marketplace</h1>
+        <hr>
+        <h3 style="color: #c3a7bc">Find your lucky item today</h3>
+        <table class="table">
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Location</th>
+            </tr>
+            <tr class="warning">
+                <td><img src="{{bike?.image_url}}" style="width: 60px;height: 50px;"></td>
+                <td>{{bike?.title}}</td>
+                <td>{{bike?.description}}</td>
+                <td>{{bike?.price}}</td>
+                <td>{{bike?.location}}</td>
+            </tr>
+        </table>  
+    </div>
+    <hr>
+    <div class="container">
+        <h2>Login</h2>
+        <form class="form-horizontal" (submit) = "login()" #formLogin = "ngForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="email">Email:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" [(ngModel)]="user_login.email" required #loginemail = "ngModel">
+                    <span *ngIf = "loginemail.invalid && (loginemail.dirty || loginemail.touched)">
+                        <span *ngIf = "loginemail.errors.required">
+                            Email is required.
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Password:</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" required placeholder="Enter password" name="password" [(ngModel)]="user_login.password" #password = "ngModel">
+                    <p style="color: red;" *ngIf = "err_message != '' " >{{err_message.login}}</p>
+                    <span *ngIf = "password.invalid && (password.dirty || password.touched)">
+                        <span *ngIf = "password.errors.required">
+                            Password is required.
+                        </span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success" [disabled] = "formLogin.invalid" >Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- register -->
+    <div class="container">
+        <h2>Registration</h2>
+        <form class="form-horizontal" (submit) = "register()" #registerForm = "ngForm">
+            <div class="form-group">
+                <label class="control-label col-sm-2" >First name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="first name" name="first_name" 
+                    required 
+                    minlength="2" [(ngModel)]="user_reg.first_name" #firstname = "ngModel">
+                    <span *ngIf = "firstname.invalid && (firstname.dirty || firstname.touched)">
+                        <span *ngIf = "firstname.errors.required">
+                            First name is required.
+                        </span>
+                        <span *ngIf = "firstname.errors.minlength">
+                            First name have to at least 2 characters long.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" >Last name:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="last_name" class="form-control" placeholder="last name" [(ngModel)]="user_reg.last_name"
+                    required
+                    minlength="2"
+                    #lastname = "ngModel">
+                    <span *ngIf = "lastname.invalid && (lastname.dirty || lastname.touched)">
+                        <span *ngIf = "lastname.errors.required">
+                            last name is required.
+                        </span>
+                        <span *ngIf = "lastname.errors.minlength">
+                            last name have to at least 2 characters long.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Email:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="email" class="form-control" placeholder="email" [(ngModel)]="user_reg.email"
+                    required email #email = "ngModel">
+                    <span *ngIf = "email.invalid && (email.dirty || email.touched)">
+                        <span *ngIf = "email.errors.required">
+                            Email is required.
+                        </span><br>
+                        <span *ngIf = "email.errors.email">
+                            Email must be valid.
+                        </span>
+                    </span>
+                    <span *ngIf = "err_message.email != ''">{{err_message.email}}</span>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Password:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="password" class="form-control" placeholder="Enter password" id="password" [(ngModel)]="user_reg.password" required minlength="4" #pass_word = "ngModel">
+                    <span *ngIf = "pass_word.invalid && (pass_word.dirty || pass_word.touched)">
+                        <span *ngIf = "pass_word.errors.required">
+                            Password is required.
+                        </span>
+                        <span *ngIf = "pass_word.errors.minlength">
+                            Password have to at least 4 characters long.
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">Password confirmation:</label>
+                <div class="col-sm-10">
+                    <input type="text" name="password_con" [(ngModel)] = "password_confirm.con" class="form-control" placeholder="Enter password confirmation" #password_con = "ngModel" >
+                    <span *ngIf = "user_reg.password != password_confirm.con && (password_con.dirty || password_con.touched)">
+                        Password confirmation does not match the password.
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary" [disabled] = "registerForm.invalid">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>
